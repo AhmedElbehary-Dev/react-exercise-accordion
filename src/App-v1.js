@@ -25,38 +25,26 @@ export default function App() {
 }
 
 function Accordion({ data }) {
-  const [curOpen, setCurOpen] = useState(null);
-
   return (
     <div className="accordion">
       {data.map((d, i) => (
-        <AccordionItem
-          curOpen={curOpen}
-          onOpen={setCurOpen}
-          num={i}
-          title={d.title}
-          key={d.title}
-        >
-          {d.text}
-        </AccordionItem>
+        <AccordionItem num={i} title={d.title} text={d.text} />
       ))}
     </div>
   );
 }
 
-function AccordionItem({ num, title, curOpen, onOpen, children }) {
-  const isOpen = num === curOpen;
-
-  function handleToggel() {
-    onOpen(isOpen ? null : num); //toggle item itself, close if already opened1.
+function AccordionItem({ num, title, text }) {
+  const [isOpen, setIsOpen] = useState(false);
+  function handleToggel(){
+    setIsOpen(!isOpen);
   }
-
   return (
-    <div className={`item ${isOpen && `open`}`} onClick={handleToggel}>
+    <div className={`item ${isOpen &&  `open`}`} onClick={handleToggel}>
       <p className="number">{num < 9 ? `0${num + 1}` : num + 1}</p>
       <p className="title">{title}</p>
-      <p className="icon">{isOpen ? "-" : "+"}</p>
-      {isOpen && <p className="content-box">{children}</p>}
+      <p className="icon">{isOpen ? '-': '+'}</p>
+      {isOpen && <p className="content-box">{text}</p>}
     </div>
   );
 }
